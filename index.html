@@ -11,64 +11,16 @@
   <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
   <script>
-var chosenItems = {};
-
-$( document ).ready(function() {
-    // you can only save strings to local storage
-	// so all js objects have to be saved in the form JSON.stringify()
-	// and retrieved in the format JSON.parse(obj)
-    var q = localStorage.getItem("previousList");
-	if (q!=null) chosenItems = JSON.parse(q);
-});
-
-
-
-function gotoQuantity(obj)
-{
-	$.mobile.changePage("#quantity");
-	vegetablesChosen = $(obj).text();
-	$("#itemname").text(vegetablesChosen);
-	
-	
-}
-
-function showChosenItems()
-{
-	if ($("#spin").val()!="0")    saveChoice();
-	
-	//remove existing items from shopping list
-	 $("#shoppingList").empty();
-	 
-	 //iterate through the dictionary chosenItems
-	 for (var key in chosenItems) {
-     
-	  vegData = key + ":" +  chosenItems[key];
-	  $('<li>').append('<a href="#">' + vegData + '</a>').appendTo('#shoppingList');
-	  
-	  
-  	 }
-	//you have to navigate to the page after you have populated
-	$.mobile.changePage("#finalShoppingList");
-	 $("#shoppingList").listview('refresh');
-	
-	
-}
-
-function backToList()
-{
-	saveChoice();
-	$.mobile.changePage("#pageone");
-	$("#spin").val(0);
-}
-
-function saveChoice()
-{
-	vegetableChosen = $("#itemname").text();
-	quantityChosen = $("#spin").val();
-	chosenItems[vegetableChosen] = quantityChosen;
-	localStorage.setItem("previousList",JSON.stringify(chosenItems));
-}
-
+  
+	function createlist()
+		{
+    var listname = prompt("Enter list name:", "");
+    if (listname == null || listname == "") {
+        $.mobile.changePage("#homepage");
+    } else {
+        $.mobile.changePage("#createlistpage");
+    }
+		}
 </script>
   </head>
 
@@ -84,7 +36,7 @@ function saveChoice()
 
   <div data-role="main" class="ui-content">
 	<a href="#delete" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-right" title= "Delete shopping list">Delete</a>
-	<a href="#createlistname" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-right" title= "Create shopping list">Create</a>
+	<a onclick="createlist(this)" ; class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-right" title= "Create shopping list">Create</a>
 
     <p>Welcome!</p>
 
@@ -119,7 +71,7 @@ function saveChoice()
 </div>
 
 
-<div data-role="page" id="createlistname">
+<div data-role="page" id="createlistpage">
 	
 	<title> Create a Shopping List </title>
   <div data-role="header">
@@ -128,35 +80,15 @@ function saveChoice()
 
   <div data-role="main" class="ui-content">
 <form>
-	Item name: <input type = "text" name = "itemname" placeholder = "Enter the name of item">
+	Item name: <input type = "text" name = "listname" placeholder = "Enter the name of item">
 </form>
-    <a href="#pageone" class="ui-btn" title= "Create list">Create list</a>
+    <a href="#createlist" class="ui-btn" title= "Create list">Create list</a>
 	<a href="#homepage" class="ui-btn" title= "Back to Homepage">Cancel</a>
   </div>
 
 
 </div>
 
-
-<div data-role="page" id="createlist">
-	
-	<title> Create a Shopping List </title>
-  <div data-role="header">
-    <h1>Create a Shopping List</h1>
-  </div>
-
-  <div data-role="main" class="ui-content">
-<form>
-	Item name: <input type = "text" name = "itemname" placeholder = "Enter the name of item">
-</form>
-    <a href="#pageone" class="ui-btn">Add Item</a>
-	<a href="#homepage" class="ui-btn" title= "Back to Homepage">Cancel</a>
-  </div>
-
-  <div data-role="footer">
-    <h1>Footer Text</h1>
-  </div>
-</div>
 
 
 <div data-role="page" id="editpage">
