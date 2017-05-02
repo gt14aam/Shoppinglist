@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Include meta tag to ensure proper rendering and touch zooming -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Include jQuery Mobile stylesheets -->
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+  <!-- Include the jQuery library -->
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <!-- Include the jQuery Mobile library -->
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<title> Add item to list </title>
+<h2> Add item to list </h2>
+<script>
+		// Name check
+		function myFunction() {
+		if (empty($itemname)) {
+			$error = true;
+			$nameError = "Please enter your full name.";
+		} else if (!preg_match("/^[a-zA-Z ]+$/",$itemname)) {
+			$error = true;
+			$nameError = "Name must contain alphabets and space.";
+		}
+		}
+		</script>
+		
+		<script>
+$(document).ready(function(){
+    $("cancel").click(function(){
+        $.load("www.google.co.uk");
+    });
+    });
+    $(".additem").click(function(){
+        $("p").show();
+    });
+});
+</script>
+</head>
+<body bgcolor = "#FFFF99">
+<h3>Write the name of the item you wish to add </h3>
+<div class = "input-form">
+<form>
+	Item name: <input type = "text" name = "itemname" placeholder = "Enter the name of item">
+</form>
+	<br><br> 
+	
+<div class = "button"; id="cancel"; style="float: left";>
+ <input type = "submit"
+	value = "Cancel">
+	</div>
+	
+<div class = "button"; id="additem" style="float: right" >
+<input type = "submit"
+	value = "Add item">
+</div>
+
+<!--update or display error
+// if {
+				$errTyp = "success";
+				$errMSG = "Item successfully added";	
+			}
+else {
+				$errTyp = "danger";
+				$errMSG = "Something went wrong, try again later...";	
+			}
+-->
+</body>
+</html>

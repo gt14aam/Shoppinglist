@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Include meta tag to ensure proper rendering and touch zooming -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Include jQuery Mobile stylesheets -->
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+  <!-- Include the jQuery library -->
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <!-- Include the jQuery Mobile library -->
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+  <script>
+var chosenItems = {};
+
+$( document ).ready(function() {
+    // you can only save strings to local storage
+	// so all js objects have to be saved in the form JSON.stringify()
+	// and retrieved in the format JSON.parse(obj)
+    var q = localStorage.getItem("previousList");
+	if (q!=null) chosenItems = JSON.parse(q);
+});
+
+
+
+function gotoQuantity(obj)
+{
+	$.mobile.changePage("#quantity");
+	vegetablesChosen = $(obj).text();
+	$("#itemname").text(vegetablesChosen);
+	
+	
+}
+
+function showChosenItems()
+{
+	if ($("#spin").val()!="0")    saveChoice();
+	
+	//remove existing items from shopping list
+	 $("#shoppingList").empty();
+	 
+	 //iterate through the dictionary chosenItems
+	 for (var key in chosenItems) {
+     
+	  vegData = key + ":" +  chosenItems[key];
+	  $('<li>').append('<a href="#">' + vegData + '</a>').appendTo('#shoppingList');
+	  
+	  
+  	 }
+	//you have to navigate to the page after you have populated
+	$.mobile.changePage("#finalShoppingList");
+	 $("#shoppingList").listview('refresh');
+	
+	
+}
+
+function backToList()
+{
+	saveChoice();
+	$.mobile.changePage("#pageone");
+	$("#spin").val(0);
+}
+
+function saveChoice()
+{
+	vegetableChosen = $("#itemname").text();
+	quantityChosen = $("#spin").val();
+	chosenItems[vegetableChosen] = quantityChosen;
+	localStorage.setItem("previousList",JSON.stringify(chosenItems));
+}
+
+</script>
+  </head>
+
+<body>
+
+
+
+<div data-role="page" id="homepage">
+	<title> Homepage </title>
+  <div data-role="header">
+    <h1>Homepage</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+	<a href="#delete" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-right" title= "Delete shopping list">Delete</a>
+	<a href="#createlist" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-right" title= "Create shopping list">Create</a>
+
+    <p>Welcome!</p>
+
+    <center><a href="#editpage" class="ui-btn ui-btn-inline ui-shadow ui-corner-all" title= "Edit item from pre-existing list">Edit items</a></center>		
+    <center><a href="#addpage" class="ui-btn ui-btn-inline ui-shadow ui-corner-all" title= "Add item to list">Add items</a></center>
+	</div>
+
+  <div data-role="footer">
+    <h1>Footer Text</h1>
+  </div>
+</div> 
+
+<div data-role="page" id="addpage">
+	<title> Add item to list </title>
+  <div data-role="header">
+    <h1>Add items</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+<form>
+	Item name: <input type = "text" name = "itemname" placeholder = "Enter the name of item">
+</form>
+    <a href="#pageone" class="ui-btn">Add Item</a>
+	<a href="#homepage" class="ui-btn" title= "Back to Homepage">Cancel</a>
+  </div>
+
+  <div data-role="footer">
+    <h1>Footer Text</h1>
+  </div>
+</div>
+
+
+<div data-role="page" id="createlist">
+<a href="#createlistpop" class="ui-btn ui-btn-inline ui-corner-all" >Show Popup</a>
+    
+    <div data-role="popup" id="createlistpop">
+      <p>Enter the name of the list</p>
+      	<input type = "text" name = "listname" placeholder = "Enter the name of list">
+      <button> Add </button>
+	<a href="#homepage" class="ui-btn" title= "Back to Homepage">Cancel</a>
+      
+    </div>
+
+	
+	
+	<title> Create a Shopping List </title>
+  <div data-role="header">
+    <h1>Create a Shopping List</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+<form>
+	Item name: <input type = "text" name = "itemname" placeholder = "Enter the name of item">
+</form>
+    <a href="#pageone" class="ui-btn">Add Item</a>
+	<a href="#homepage" class="ui-btn" title= "Back to Homepage">Cancel</a>
+  </div>
+
+  <div data-role="footer">
+    <h1>Footer Text</h1>
+  </div>
+</div>
+
+<div data-role="page" id="editpage">
+	<title> Edit item </title>
+  <div data-role="header">
+    <h1>Edit items</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+<form>
+	Item name: <input type = "text" name = "itemname" placeholder = "Enter the name of item">
+</form>
+    <a href="#pageone" class="ui-btn" title= "Click here to make changes">Change</a>
+	<a href="#homepage" class="ui-btn" title= "Back to Homepage">Cancel</a>
+  </div>
+
+  <div data-role="footer">
+    <h1>Footer Text</h1>
+  </div>
+</div>
+
+</body>
+</html>
