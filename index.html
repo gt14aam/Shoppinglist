@@ -1,123 +1,79 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html>
 <head>
-  <!-- Include meta tag to ensure proper rendering and touch zooming -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Include jQuery Mobile stylesheets -->
-  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-  <!-- Include the jQuery library -->
-  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-  <!-- Include the jQuery Mobile library -->
-  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-  <script type="text/javascript" src="http://dev.jtsage.com/cdn/spinbox/latest/jqm-spinbox.min.js"></script>
-  <script>
-  var listnames = {};
-	function createlist()
-		{
-    var listname = prompt("Enter list name:", "");
-    if (listname == null || listname == "") {
-        $.mobile.changePage("#homepage");
-    } else {
-        $.mobile.changePage("#createlistpage");
-	listnames[listname];
-	alert(JSON.strinify(listnames));
-    }
-		}
-		
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="http://dev.jtsage.com/cdn/spinbox/latest/jqm-spinbox.min.js"></script>
+<script>
+$(function() {
+	$(document).on('click', '.delete', fdeleteitem);
+	$(document).on('click', '.bought', fbought);
+	});
+
+function fadditem(){
+	var text = $("#itemname").val();
+	if(text === null || text === "" )
+	{
+	}
+	else
+	{
+	$("#shoppinglist").append('<li>'+'<input type="checkbox" class="bought" />'+text+'    <button class="delete">Delete</button></li>');
+	$("#itemname").val('');
+	}
+}
+	
+function fdeleteitem(){
+	$(this).parent().remove();
+}
+function fbought(){
+	if ($(this).parent().css('textDecoration') === 'line-through')
+	{
+		$(this).parent().css('textDecoration', 'none');
+	}
+	else
+	{
+	}
+	$(this).parent().css('textDecoration', 'line-through');
+	
+}
+
+
 
 </script>
-  </head>
-
+</head>
 <body>
-
-
-
 <div data-role="page" id="homepage">
-	<title> Homepage </title>
+  <div data-role="main" class="ui-content">
+  <title> Homepage </title>
   <div data-role="header">
     <h1>Homepage</h1>
   </div>
-
-  <div data-role="main" class="ui-content">
-	<a href="#delete" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-right" title= "Delete shopping list">Delete</a>
-	<a onclick="createlist()" ; class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-right" title= "Create shopping list">Create</a>
-
-    <p>Welcome!</p>
-
-    <center><a href="#editpage" class="ui-btn ui-btn-inline ui-shadow ui-corner-all" title= "Edit item from pre-existing list">Edit items</a></center>		
-    <center><a href="#addpage" class="ui-btn ui-btn-inline ui-shadow ui-corner-all" title= "Add item to list">Add items</a></center>
+	<div>
+	<a href="#additem" ; class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-right" title= "Add item">Add item</a>
 	</div>
 
-  <div data-role="footer">
-	<div id= "list">
+  </div>
+  </div>
+
+
+<div data-role="page" id="additem">
+  <div data-role="main" class="ui-content">
+  <title> Homepage </title>
+  <div data-role="header">
+    <h1>Homepage</h1>
+  </div>
+	<div>Item name: <input type = "text" id = "itemname" placeholder = "Enter the name of item">
+	<a onclick="fadditem()" ; class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-right" title= "Add item">Add</a>
+	</div>
+	<div><h2>Items saved</h2>
+	<ul id = "shoppinglist">
+	</ul>
 	</div>
   </div>
-
-</div> 
-
-<div data-role="page" id="addpage">
-
-	<title> Add item to list </title>
-  <div data-role="header">
-    <h1>Add items</h1>
   </div>
 
-  <div data-role="main" class="ui-content">
-<form>
-	Item name: <input type = "text" name = "itemname" placeholder = "Enter the name of item">
-</form>
-    <a href="#pageone" class="ui-btn" title= "Add item">Add Item</a>
-	<a href="#homepage" class="ui-btn" title= "Back to Homepage">Cancel</a>
-  </div>
-
-  <div data-role="footer">
-    <h1>Footer Text</h1>
-  </div>
-</div>
-
-
-<div data-role="page" id="createlistpage">
-	
-	<title> Create a Shopping List </title>
-  <div data-role="header">
-    <h1>Create a Shopping List</h1>
-  </div>
-
-  <div data-role="main" class="ui-content">
-<form>
-	Item name: <input type = "text" name = "listitem" placeholder = "Enter the name of item">
-	     <div class="ui-field-contain">
-       <label for="spin">Amount</label>
-       <input type="text" data-role="spinbox" name="spin" id="spin" value="0" min="0" max="20" />
-      </div>
-</form>
-    <a href="#createlist" class="ui-btn" title= "Create list">Create list</a>
-	<a href="#homepage" class="ui-btn" title= "Back to Homepage">Cancel</a>
-  </div>
-
-
-</div>
-
-
-
-<div data-role="page" id="editpage">
-	<title> Edit item </title>
-  <div data-role="header">
-    <h1>Edit items</h1>
-  </div>
-
-  <div data-role="main" class="ui-content">
-<form>
-	Item name: <input type = "text" name = "itemname" placeholder = "Enter the name of item">
-</form>
-    <a href="#pageone" class="ui-btn" title= "Click here to make changes">Change</a>
-	<a href="#homepage" class="ui-btn" title= "Back to Homepage">Cancel</a>
-  </div>
-
-  <div data-role="footer">
-    <h1>Footer Text</h1>
-  </div>
-</div>
 
 </body>
 </html>
