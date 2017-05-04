@@ -10,17 +10,27 @@
 $(function() {
 	$(document).on('click', '.delete', fdeleteitem);
 	$(document).on('click', '.bought', fbought);
+	
 	});
-
 function fadditem(){
 	var text = $("#itemname").val();
+	var textarray = [];
+	var quantity = $("#spin").val();
 	if(text === null || text === "" )
 	{
 	}
 	else
 	{
-	$("#shoppinglist").append('<li>'+'<input type="checkbox" class="bought" />'+text+'    <button class="delete">Delete</button></li>');
+	if (quantity === null || quantity === "0" )
+	{
+	}
+	else{
+	textarray.push("#text");
+	
+	$("#shoppinglist").append('<li>'+'<input type="checkbox" class="bought" />'+text+ '<button class="delete" title="Delete item">Delete</button></li>');
 	$("#itemname").val('');
+	$("#spin").val('0');
+	}
 	}
 }
 	
@@ -31,40 +41,54 @@ function fbought(){
 	if ($(this).parent().css('textDecoration') === 'line-through')
 	{
 		$(this).parent().css('textDecoration', 'none');
+		$(this).parent().css('opacity', '1');
 	}
 	else
 	{
-	}
 	$(this).parent().css('textDecoration', 'line-through');
-	
+	$(this).parent().css('opacity', '0.5');
+	}
 }
 
 
 
 </script>
-</head>
-<body>
-<div data-role="page" id="homepage">
+
+
+  <style>
+  li{
+  list-style-type: none;
+  font-size: 25px;
+  border-bottom: 1px solid #eee;
+  }
+  input[type=checkbox] {
+  margin-right: 10px;
+  }
+  .delete{
+  float:right;
+  background-color: #f44336;
+  color: #e7e7e7;
+  width: 99px;
+  height: 25px;
+  font-size: 16px;
+  
+  }
+  text{
+  font-size: 25px
+  }
+  </style>
+
+<div data-role="page" id="shoppinglistpage">
   <div data-role="main" class="ui-content">
-  <title> Homepage </title>
+  <title> Shoppinglist </title>
   <div data-role="header">
-    <h1>Homepage</h1>
-  </div>
-	<div>
-	<a href="#additem" ; class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-right" title= "Add item">Add item</a>
-	</div>
-
-  </div>
-  </div>
-
-
-<div data-role="page" id="additem">
-  <div data-role="main" class="ui-content">
-  <title> Homepage </title>
-  <div data-role="header">
-    <h1>Homepage</h1>
+    <h1>Shoppinglist</h1>
   </div>
 	<div>Item name: <input type = "text" id = "itemname" placeholder = "Enter the name of item">
+	     <div class="ui-field-contain">
+       <label for="spin">Amount</label>
+       <input type="text" data-role="spinbox" name="spin" id="spin" value="0" min="0" max="10" />
+      </div>
 	<a onclick="fadditem()" ; class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-right" title= "Add item">Add</a>
 	</div>
 	<div><h2>Items saved</h2>
