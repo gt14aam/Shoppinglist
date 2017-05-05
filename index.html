@@ -18,9 +18,9 @@ $( document ).ready(function() {
 	// and retrieved in the format JSON.parse(obj)
 	$(document).on('click', '.delete', fdeleteitem);
 	$(document).on('click', '.bought', fbought);
+	showChosenItems()
     var q = localStorage.getItem("previousList");
 	if (q!=null) chosenItems = JSON.parse(q);
-	showChosenItems()
 });
 
 
@@ -57,7 +57,6 @@ function showChosenItems()
 }
 function fdeleteitem(){
 	$(this).parent().remove();
-	saveChoice()
 }
 function fbought(){
 	if ($(this).parent().css('textDecoration') === 'line-through')
@@ -88,28 +87,7 @@ function saveChoice()
 }
 
 </script>
-  <style>
-  li{
-  list-style-type: none;
-  font-size: 25px;
-  border-bottom: 1px solid #eee;
-  }
-  input[type=checkbox] {
-  margin-right: 10px;
-  }
-  .delete{
-  float:right;
-  background-color: #f44336;
-  color: #e7e7e7;
-  width: 99px;
-  height: 25px;
-  font-size: 16px;
-  
-  }
-  text{
-  font-size: 25px
-  }
-  </style>
+
 <div data-role="page" id="pageone">
   <div data-role="main" class="ui-content">
     <h2>Vegetables</h2>
@@ -138,7 +116,7 @@ function saveChoice()
 <div data-role="page" id="finalShoppingList">
   <div data-role="main" class="ui-content">
   <div id="allVegetablesChosen">
-  <ul data-role="listview" data-filter="t" data-input="#myFilter" data-autodividers="false" data-inset="true" id="shoppingList">
+  <ul data-role="listview" data-filter="false" data-input="#myFilter" data-autodividers="true" data-inset="true" id="shoppingList">
   </ul>
   <button onclick="$.mobile.changePage('#pageone');">Choose Again</button>
   </div>
