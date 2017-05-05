@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,9 +18,9 @@ $( document ).ready(function() {
 	// and retrieved in the format JSON.parse(obj)
 	$(document).on('click', '.delete', fdeleteitem);
 	$(document).on('click', '.bought', fbought);
-	showChosenItems()
     var q = localStorage.getItem("previousList");
 	if (q!=null) chosenItems = JSON.parse(q);
+	showChosenItems();
 });
 
 
@@ -30,8 +30,7 @@ function gotoQuantity()
 	$.mobile.changePage("#quantity");
 	vegetablesChosen = $("#firstitem").text();
 	$("#firstitem").text(vegetablesChosen);
-	
-	
+		
 }
 
 function showChosenItems()
@@ -45,7 +44,7 @@ function showChosenItems()
 	 for (var key in chosenItems) {
      
 	  vegData = key + ":" +  chosenItems[key];
-	  $('<li>').append('<a href="#">' + vegData + '</a>'+'<input type="checkbox" class="bought" />'+'<button class="delete" title="Delete item">Delete</button>').appendTo('#shoppingList');
+	  $('<li>').append('<input type="checkbox" class="bought" />'+'<a >' + vegData + '</a>'+'<button class="ui-btn ui-btn-inline ui-shadow ui-corner-all delete" title="Delete item">Delete</button>').appendTo('#shoppingList');
 	  
 	  
   	 }
@@ -89,24 +88,30 @@ function saveChoice()
 </script>
 
 <div data-role="page" id="pageone">
+  <div data-role="header">
+    <h1>CALL THIS SOMETHING..................:</h1>
+  </div>
   <div data-role="main" class="ui-content">
-    <h2>Vegetables</h2>
+    <h2>Vegetables CHANGE THE NAME OF THIS THING</h2>
     	<div>Item name: <input type = "text" id = "firstitem" placeholder = "Enter the name of item">
-
-		
-	<a onclick="gotoQuantity()" ; class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-right" title= "Add item">Add</a>
+	<div data-role="main" class="ui-content">
+	<div id="itemname"></div>
+    <div class="ui-field-contain">
+    <label for="spin">Enter Amount</label>
+    <input type="text" data-role="spinbox" name="spin" id="spin" value="0" min="0" max="20" />
+    </div>	
+	
+	<button onclick="showChosenItems()" ; class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-icon-right" title= "Show Chosen Items">Show Chosen Items</button>
 	</div>
       
   </div>
+  </div>
+    
 </div> 
 
 <div data-role="page" id="quantity">
   <div data-role="main" class="ui-content">
-  	  <div id="itemname"></div>
-     <div class="ui-field-contain">
-       <label for="spin">Input spinner</label>
-       <input type="text" data-role="spinbox" name="spin" id="spin" value="0" min="0" max="20" />
-      </div>
+
       <button onclick="backToList()">Choose Again</button>
       <button onclick="showChosenItems()">Show Chosen Items</button>
  </div>
@@ -114,9 +119,12 @@ function saveChoice()
 </div>
 
 <div data-role="page" id="finalShoppingList">
+  <div data-role="header">
+    <h1>Shopping List:</h1>
+  </div>
   <div data-role="main" class="ui-content">
   <div id="allVegetablesChosen">
-  <ul data-role="listview" data-filter="false" data-input="#myFilter" data-autodividers="true" data-inset="true" id="shoppingList">
+  <ul data-role="listview" data-filter="true" data-input="#myFilter" data-autodividers="true" data-inset="true" id="shoppingList">
   </ul>
   <button onclick="$.mobile.changePage('#pageone');">Choose Again</button>
   </div>
