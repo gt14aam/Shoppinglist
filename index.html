@@ -5,53 +5,59 @@
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-<script type="text/javascript" src="http://dev.jtsage.com/cdn/spinbox/latest/jqm-spinbox.min.js"></script>
+<script type="text/javascript" src="http://dev.jtsage.com/cdn/spinbox/latest/jqm-spinbox.min.js"></script>
+</head>
+<body>
+
 <script>
-var textarray = {};
+var chosenItems = {};
+
 $( document ).ready(function() {
+    // you can only save strings to local storage
+	// so all js objects have to be saved in the form JSON.stringify()
+	// and retrieved in the format JSON.parse(obj)
 	$(document).on('click', '.delete', fdeleteitem);
 	$(document).on('click', '.bought', fbought);
-	var q = localStorage.getItem("previousList");
-	if (q!=null) textarray = JSON.parse(q);
-	fadditem()
-	})
-	
-function fadditem(){
-	text = $("#itemname").val();
-	$("#itemname").val(text);
-	var quantity = $("#spin").val();
-	if(text === null || text === "" )
-	{
-	}
-	else
-	{
-	if (quantity === null || quantity === "0" )
-	{
-	}
-	else{
-	savechoice();	$("#shoppingList").empty();
-	for (var key in textarray) {
-	  vegData = key + ":" +  textarray[key];
-	 
-	  $('<li>').append('<input type="checkbox" class="bought" />'+ vegData + '<button class="delete" title="Delete item">Delete</button>' ).appendTo('#shoppinglist');
-	}
-	$("#itemname").val('');
-	$("#spin").val('0');	$("#shoppingList").listview('refresh');
-	}
-	}
-}
-function savechoice(){
-	vegetable= $("#itemname").val();
-	quantitychosen= $("#spin").val();
-	textarray[vegetable]= quantitychosen;
-	localStorage.setItem("previousList",JSON.stringify(textarray));
+    var q = localStorage.getItem("previousList");
+	if (q!=null) chosenItems = JSON.parse(q);
 	
-}	
+	
+});
+
+
+
+function gotoQuantity()
+{
+	$.mobile.changePage("#quantity");
+	vegetablesChosen = $("#firstitem").text();
+	$("#firstitem").text(vegetablesChosen);
+		
+}
+
+function showChosenItems()
+{
+	if ($("#spin").val()!="0")    saveChoice();
+	
+	//remove existing items from shopping list
+	 $("#shoppingList").empty();
+	 
+	 //iterate through the dictionary chosenItems
+	 for (var key in chosenItems) {
+     
+	  vegData = key + ":" +  chosenItems[key];
+	  $('<li>').append('<input type="checkbox" class="bought" />'+'<a href="#">' + vegData + '</a>'+'<button class="delete" title="Delete item">Delete</button>'+ '<li>').appendTo('#shoppingList');
+	  
+	  
+  	 }
+	//you have to navigate to the page after you have populated
+	$.mobile.changePage("#finalShoppingList");
+	 $("#shoppingList").list('refresh');
+	
+	
+}
 function fdeleteitem(){
-	savechoice()
 	$(this).parent().remove();
-	savechoice()
-}
+}
 function fbought(){
 	if ($(this).parent().css('textDecoration') === 'line-through')
 	{
@@ -63,47 +69,108 @@ function fbought(){
 	$(this).parent().css('textDecoration', 'line-through');
 	$(this).parent().css('opacity', '0.5');
 	}
-}
-</script>
-  <style>
-  li{
-  list-style-type: none;
-  font-size: 25px;
-  border-bottom: 1px solid #eee;
-  }
-  input[type=checkbox] {
-  margin-right: 10px;
-  }
+}
+function backToList()
+{
+	vegetableChosen = $("#firstitem").val();
+	quantityChosen = $("#spin").val();
+	if(vegetableChosen == null || ""){
+	}
+	else{
+	if(quantityChosen== null || "0"){
+	}
+	else{
+	saveChoice();
+	$.mobile.changePage("#pageone");
+	$("#spin").val(0);
+	$("#firstitem").val("");
+	}
+	}
+}
+
+function saveChoice()
+{
+	vegetableChosen = $("#firstitem").val();
+	quantityChosen = $("#spin").val();
+	chosenItems[vegetableChosen] = quantityChosen;
+	localStorage.setItem("previousList",JSON.stringify(chosenItems));
+}
+
+</script>
+<style>
   .delete{
   float:right;
   background-color: #f44336;
   color: #e7e7e7;
-  width: 99px;
+  width: 77px;
   height: 25px;
   font-size: 16px;
-  }
-  </style>
-
-<div data-role="page" id="shoppinglistpage">
+  border-bottom: 1px solid #eee;
+  }
+  a:link{
+  color: black;
+  text-decoration: none;
+  }
+    li{
+  list-style-type: none;
+  font-size: 18px;
+  font-weight: 0:
+  font-color: black;
+  color: black;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+  }
+  input[type=checkbox] {
+  margin-right: 10px;
+  }
+
+  </style>
+<div data-role="page" id="pageone">
   <div data-role="main" class="ui-content">
-  <title> Shoppinglist </title>
   <div data-role="header">
-    <h1>Shoppinglist</h1>
+		<title>Add items to shopping list</title>
+    <h1>Add items to shopping list</h1>
   </div>
-	<div>Item name: <input type = "text" id = "itemname" autocomplete="on" placeholder = "Enter the name of item">
-	     <div class="ui-field-contain">
+    	<div>Item name: <input type = "text" id = "firstitem" placeholder = "Enter the name of item">
+
+     <div class="ui-field-contain">
        <label for="spin">Amount</label>
-       <input type="text" data-role="spinbox" name="spin" id="spin" value="0" min="0" max="10" />
+       <input type="text" data-role="spinbox" name="spin" id="spin" value="0" min="0" max="20" />
       </div>
-	<a onclick="fadditem(this)" ; class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-right" title= "Add item">Add</a>
+      <a onclick="backToList()"class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-right" title= "Add item">Add</a>
+      <a onclick="showChosenItems()"class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-bars ui-btn-icon-right">Show Chosen Items</a>
+ </div>
 	</div>
-	<div><h2>Items saved</h2>
-	<ul id = "shoppinglist">
-	</ul>
-	</div>
+      
   </div>
-  </div>
-
-
-</body>
+</div> 
+
+<div data-role="page" id="quantity">
+  <div data-role="main" class="ui-content">
+  	  <div id="itemname"></div>
+     <div class="ui-field-contain">
+       <label for="spin">Input spinner</label>
+       <input type="text" data-role="spinbox" name="spin" id="spin" value="0" min="0" max="20" />
+      </div>
+      <button onclick="backToList()">Choose Again</button>
+      <button onclick="showChosenItems()">Show Chosen Items</button>
+ </div>
+ 
+</div>
+
+<div data-role="page" id="finalShoppingList">
+  <div data-role="main" class="ui-content">
+  <div data-role="header">
+    <h1>Shopping List:</h1>
+  </div>
+  <div id="allVegetablesChosen">
+  <ul data-role="list" data-filter="true" data-input="#myFilter" data-autodividers="False" data-inset="flase" id="shoppingList">
+  </ul>
+  <button onclick="$.mobile.changePage('#pageone');">Back</button>
+  </div>
+  </div>
+
+  </div>
+
+</body>
 </html>
